@@ -29,6 +29,8 @@
 		D105333B2BE8D9A600C6B252 /* CatalogDataSourse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D105333A2BE8D9A600C6B252 /* CatalogDataSourse.swift */; };
 		D105333D2BEA77C600C6B252 /* MainScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D105333C2BEA77C600C6B252 /* MainScreenViewModel.swift */; };
 		D10533402BEA7ADA00C6B252 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = D105333F2BEA7ADA00C6B252 /* .gitignore */; };
+		D10533422BEB903A00C6B252 /* UIColor+CustomColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10533412BEB903A00C6B252 /* UIColor+CustomColors.swift */; };
+		D10533452BEB942D00C6B252 /* UIView+AddSubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10533442BEB942D00C6B252 /* UIView+AddSubViews.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -55,6 +57,8 @@
 		D105333A2BE8D9A600C6B252 /* CatalogDataSourse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogDataSourse.swift; sourceTree = "<group>"; };
 		D105333C2BEA77C600C6B252 /* MainScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenViewModel.swift; sourceTree = "<group>"; };
 		D105333F2BEA7ADA00C6B252 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		D10533412BEB903A00C6B252 /* UIColor+CustomColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+CustomColors.swift"; sourceTree = "<group>"; };
+		D10533442BEB942D00C6B252 /* UIView+AddSubViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+AddSubViews.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,6 +98,7 @@
 				D105331E2BE4EDE500C6B252 /* TableViewCells */,
 				D10533212BE6796700C6B252 /* CollectionViewCells */,
 				D10533372BE8D7FB00C6B252 /* DataSourse */,
+				D10533432BEB90E800C6B252 /* Extentions */,
 				D10533042BE4C18800C6B252 /* Assets.xcassets */,
 				D105333F2BEA7ADA00C6B252 /* .gitignore */,
 				D10533062BE4C18800C6B252 /* LaunchScreen.storyboard */,
@@ -144,6 +149,15 @@
 				D105333C2BEA77C600C6B252 /* MainScreenViewModel.swift */,
 			);
 			path = MainScreenModule;
+			sourceTree = "<group>";
+		};
+		D10533432BEB90E800C6B252 /* Extentions */ = {
+			isa = PBXGroup;
+			children = (
+				D10533412BEB903A00C6B252 /* UIColor+CustomColors.swift */,
+				D10533442BEB942D00C6B252 /* UIView+AddSubViews.swift */,
+			);
+			path = Extentions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -228,6 +242,7 @@
 				D105331B2BE4ECB600C6B252 /* PromotionalGoodsTableViewCell.swift in Sources */,
 				D10533192BE4EC7A00C6B252 /* PromoBannerTableViewCell.swift in Sources */,
 				D10533282BE76F6300C6B252 /* PromoBannerCollectionViewCell.swift in Sources */,
+				D10533422BEB903A00C6B252 /* UIColor+CustomColors.swift in Sources */,
 				D105333D2BEA77C600C6B252 /* MainScreenViewModel.swift in Sources */,
 				D105332D2BE7816B00C6B252 /* PromotionalGoodCollectionViewCell.swift in Sources */,
 				D10533132BE4EB3600C6B252 /* AddressSelectionTableViewCell.swift in Sources */,
@@ -238,6 +253,7 @@
 				D10533312BE7AF2000C6B252 /* CatalogCollectionViewCell.swift in Sources */,
 				D10533232BE67B7200C6B252 /* PromoSectionCollectionViewCell.swift in Sources */,
 				D10533392BE8D82300C6B252 /* PromotionalGoodsDataSourse.swift in Sources */,
+				D10533452BEB942D00C6B252 /* UIView+AddSubViews.swift in Sources */,
 				D10533362BE8BB5900C6B252 /* PromoBannerDataSourse.swift in Sources */,
 				D10533152BE4EBA900C6B252 /* SearchBarTableViewCell.swift in Sources */,
 				D10533172BE4EC3300C6B252 /* PromoSectionTableViewCell.swift in Sources */,

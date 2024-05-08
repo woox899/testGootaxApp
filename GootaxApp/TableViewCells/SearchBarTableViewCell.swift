@@ -35,22 +35,20 @@ final class SearchTableViewCell: UITableViewCell {
     }
     
     private func setupUI() {
-        contentView.addSubview(searchTextField)
-        contentView.addSubview(searchLikeButton)
+        contentView.addSubviews([searchTextField, searchLikeButton])
         
         searchTextField.snp.makeConstraints { make in
-            make.leading.equalTo(contentView.snp.leading).offset(15)
-            make.centerY.equalTo(contentView.snp.centerY)
+            make.leading.equalToSuperview().offset(15)
+            make.centerY.equalToSuperview()
             make.trailing.equalTo(searchLikeButton.snp.leading).offset(-10)
             make.width.equalTo(35)
         }
         
         searchLikeButton.snp.makeConstraints { make in
             make.leading.equalTo(searchTextField.snp.trailing).offset(20)
-            make.width.equalTo(30)
-            make.height.equalTo(30)
-            make.centerY.equalTo(contentView.snp.centerY)
-            make.trailing.equalTo(contentView.snp.trailing).offset(-15)
+            make.width.height.equalTo(30)
+            make.centerY.equalToSuperview()
+            make.trailing.equalToSuperview().offset(-15)
         }
     }
 }

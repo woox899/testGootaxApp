@@ -19,13 +19,12 @@ final class PromotionalGoodsTableViewCell: UITableViewCell {
         layout.scrollDirection = .horizontal
         layout.itemSize.width = 102
         layout.itemSize.height = 208
-        layout.itemSize.height = 208
-        layout.minimumLineSpacing = 12
+        layout.minimumLineSpacing = 10
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.delegate = self
         collectionView.dataSource = self
-        collectionView.contentInset = UIEdgeInsets(top: 10, left: 15, bottom: 0, right: 15)
+        collectionView.contentInset = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
         collectionView.register(PromotionalGoodsCollectionViewCell.self, forCellWithReuseIdentifier: PromotionalGoodsCollectionViewCell.reuseID)
         return collectionView
     }()
@@ -42,7 +41,7 @@ final class PromotionalGoodsTableViewCell: UITableViewCell {
         showAllButton.setTitle("Смотреть все", for: .normal)
         showAllButton.setTitleColor(.black, for: .normal)
         showAllButton.titleLabel?.font = .systemFont(ofSize: 12)
-        showAllButton.backgroundColor = UIColor(red: 244/255, green: 244/255, blue: 244/255, alpha: 1)
+        showAllButton.backgroundColor = .showAllButtonColor
         showAllButton.layer.cornerRadius = 12
         return showAllButton
     }()
@@ -55,7 +54,37 @@ final class PromotionalGoodsTableViewCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
+    private func setupUI() {
+        contentView.addSubviews([promotionalGoodsCollectionView, titleLabel, showAllButton])
+        
+        promotionalGoodsCollectionView.snp.makeConstraints { make in
+            make.leading.trailing.bottom.equalToSuperview()
+            make.top.equalTo(showAllButton.snp.bottom).offset(16)
+        }
+        
+        titleLabel.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(20)
+            make.centerY.equalTo(showAllButton.snp.centerY)
+        }
+        
+        showAllButton.snp.makeConstraints { make in
+            make.trailing.equalToSuperview().offset(-20)
+            make.top.equalToSuperview().offset(10)
+            make.width.equalTo(103)
+            make.height.equalTo(25)
+            make.bottom.equalTo(promotionalGoodsCollectionView.snp.top)
+        }
+    }
+}
+
+extension PromotionalGoodsTableViewCell: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("Блок с акционными товарами")
+    }
+}
+
+extension PromotionalGoodsTableViewCell: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return promotionalGoodsDataSourse.count
     }
@@ -65,42 +94,6 @@ final class PromotionalGoodsTableViewCell: UITableViewCell {
         cell.configure(model: promotionalGoodsDataSourse[indexPath.row])
         return cell
     }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("Блок с акционными товарами")
-    }
-    
-    private func setupUI() {
-        contentView.addSubview(promotionalGoodsCollectionView)
-        contentView.addSubview(titleLabel)
-        contentView.addSubview(showAllButton)
-        
-        promotionalGoodsCollectionView.snp.makeConstraints { make in
-            make.leading.equalTo(contentView.snp.leading)
-            make.top.equalTo(contentView.snp.top)
-            make.trailing.equalTo(contentView.snp.trailing)
-            make.bottom.equalTo(contentView.snp.bottom)
-        }
-        
-        titleLabel.snp.makeConstraints { make in
-            make.leading.equalTo(contentView.snp.leading).offset(20)
-        }
-        
-        showAllButton.snp.makeConstraints { make in
-            make.trailing.equalTo(contentView.snp.trailing).offset(-20)
-            make.top.equalTo(contentView.snp.top).offset(5)
-            make.width.equalTo(103)
-            make.height.equalTo(25)
-        }
-    }
-}
-
-extension PromotionalGoodsTableViewCell: UICollectionViewDelegate {
-    
-}
-
-extension PromotionalGoodsTableViewCell: UICollectionViewDataSource {
-    
 }
 
 

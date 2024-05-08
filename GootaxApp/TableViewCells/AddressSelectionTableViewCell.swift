@@ -48,21 +48,17 @@ final class AddressSelectionTableViewCell: UITableViewCell {
     }
     
     private func setupUI() {
-        contentView.addSubview(hamburgerMenuButton)
-        contentView.addSubview(deliveryLabel)
-        contentView.addSubview(addressLabel)
-        contentView.addSubview(dropDownListButton)
-        
+        contentView.addSubviews([hamburgerMenuButton, deliveryLabel, addressLabel, dropDownListButton])
+
         hamburgerMenuButton.snp.makeConstraints { make in
-            make.leading.equalTo(contentView.snp.leading).offset(15)
-            make.centerY.equalTo(contentView.snp.centerY)
-            make.width.equalTo(25)
-            make.height.equalTo(25)
+            make.leading.equalToSuperview().offset(15)
+            make.centerY.equalToSuperview()
+            make.width.height.equalTo(25)
         }
         
         deliveryLabel.snp.makeConstraints { make in
             make.leading.equalTo(hamburgerMenuButton.snp.trailing).offset(30)
-            make.top.equalTo(contentView.snp.top).offset(5)
+            make.top.equalToSuperview().offset(5)
         }
         
         addressLabel.snp.makeConstraints { make in

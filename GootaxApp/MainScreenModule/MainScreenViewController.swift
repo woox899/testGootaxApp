@@ -9,13 +9,14 @@ import UIKit
 
 final class MainScreenViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    let viewModel: MainScreenViewModelProtocol
+    private let viewModel: MainScreenViewModelProtocol
 
     private lazy var listTabelView: UITableView = {
-        let view = UITableView(frame: view.bounds, style: .plain)
+        let view = UITableView(frame: .zero, style: .plain)
         view.dataSource = self
         view.delegate = self
         view.separatorStyle = .none
+        view.showsVerticalScrollIndicator = false
         view.register(AddressSelectionTableViewCell.self, forCellReuseIdentifier: AddressSelectionTableViewCell.reuseID)
         view.register(SearchTableViewCell.self, forCellReuseIdentifier: SearchTableViewCell.reuseID)
         view.register(PromoSectionTableViewCell.self, forCellReuseIdentifier: PromoSectionTableViewCell.reuseID)
@@ -112,12 +113,16 @@ final class MainScreenViewController: UIViewController, UITableViewDelegate, UIT
         case 1:
             print("Поисковая строка")
         default:
-            print("Hello")
+            return
         }
     }
 
-    func setupUI() {
+    private func setupUI() {
         view.addSubview(listTabelView)
+        
+        listTabelView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
     }
 }
 

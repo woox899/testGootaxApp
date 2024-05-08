@@ -58,14 +58,10 @@ final class PromoBannerCollectionViewCell: UICollectionViewCell {
     private func setupUI() {
         addSubview(bannerSectionView)
         bannerSectionView.addSubview(bannerSectionImageView)
-        bannerSectionImageView.addSubview(bannerSectionDescriptionFirstLabel)
-        bannerSectionImageView.addSubview(bannerSectionDescriptionSecondLabel)
+        bannerSectionImageView.addSubviews([bannerSectionDescriptionFirstLabel, bannerSectionDescriptionSecondLabel])
 
         bannerSectionView.snp.makeConstraints { make in
-            make.leading.equalTo(snp.leading)
-            make.top.equalTo(snp.top)
-            make.trailing.equalTo(snp.trailing)
-            make.bottom.equalTo(snp.bottom)
+            make.edges.equalToSuperview()
         }
         
         bannerSectionImageView.snp.makeConstraints { make in
@@ -75,11 +71,13 @@ final class PromoBannerCollectionViewCell: UICollectionViewCell {
         bannerSectionDescriptionFirstLabel.snp.makeConstraints { make in
             make.centerY.equalTo(bannerSectionImageView.snp.centerY)
             make.leading.equalTo(bannerSectionImageView.snp.leading).offset(15)
+            make.trailing.equalTo(bannerSectionImageView.snp.trailing).offset(-15)
         }
         
         bannerSectionDescriptionSecondLabel.snp.makeConstraints { make in
             make.leading.equalTo(bannerSectionImageView.snp.leading).offset(15)
             make.top.equalTo(bannerSectionDescriptionFirstLabel.snp.bottom).offset(5)
+            make.trailing.equalTo(bannerSectionImageView.snp.trailing).offset(-15)
         }
     }
 }

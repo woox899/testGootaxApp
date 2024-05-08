@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 
 final class PromoSectionTableViewCell: UITableViewCell {
-
+    
     static let reuseID = "PromoSectionTableViewCell"
     
     private let promoDataSourse = PromoSectionModel.fetchPromoSection()
@@ -28,7 +28,7 @@ final class PromoSectionTableViewCell: UITableViewCell {
         collectionView.register(PromoSectionCollectionViewCell.self, forCellWithReuseIdentifier: PromoSectionCollectionViewCell.reuseID)
         return collectionView
     }()
-
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupUI()
@@ -38,6 +38,22 @@ final class PromoSectionTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    private func setupUI() {
+        contentView.addSubview(promoSectionCollectionView)
+        
+        promoSectionCollectionView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+    }
+}
+
+extension PromoSectionTableViewCell: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("Блок с промо разделами")
+    }
+}
+
+extension PromoSectionTableViewCell: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return promoDataSourse.count
     }
@@ -47,27 +63,4 @@ final class PromoSectionTableViewCell: UITableViewCell {
         cell.configure(model: promoDataSourse[indexPath.row])
         return cell
     }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("Блок с промо разделами")
-    }
-
-    private func setupUI() {
-        contentView.addSubview(promoSectionCollectionView)
-        
-        promoSectionCollectionView.snp.makeConstraints { make in
-            make.leading.equalTo(contentView.snp.leading)
-            make.top.equalTo(contentView.snp.top)
-            make.trailing.equalTo(contentView.snp.trailing)
-            make.bottom.equalTo(contentView.snp.bottom)
-        }
-    }
-}
-
-extension PromoSectionTableViewCell: UICollectionViewDelegate {
-    
-}
-
-extension PromoSectionTableViewCell: UICollectionViewDataSource {
-    
 }

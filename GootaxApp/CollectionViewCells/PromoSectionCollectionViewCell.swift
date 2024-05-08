@@ -50,14 +50,10 @@ final class PromoSectionCollectionViewCell: UICollectionViewCell {
     
     private func setupUI() {
         addSubview(promoSectionView)
-        promoSectionView.addSubview(promoSectionImageView)
-        promoSectionView.addSubview(promoSectionLabel)
+        promoSectionView.addSubviews([promoSectionImageView, promoSectionLabel])
 
         promoSectionView.snp.makeConstraints { make in
-            make.leading.equalTo(snp.leading)
-            make.top.equalTo(snp.top)
-            make.trailing.equalTo(snp.trailing)
-            make.bottom.equalTo(snp.bottom)
+            make.edges.equalToSuperview()
         }
         
         promoSectionImageView.snp.makeConstraints { make in

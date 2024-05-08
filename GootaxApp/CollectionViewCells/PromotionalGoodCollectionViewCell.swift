@@ -13,13 +13,12 @@ final class PromotionalGoodsCollectionViewCell: UICollectionViewCell {
     static let reuseID = "PromotionalGoodsCollectionViewCell"
     
     private var model: PromotionalGoodsSectionModel?
-    
     private var quantityOfGoodsInCartNumber = 0
     
     private let promotionalGoodsSectionView: UIView = {
         let promotionalGoodsSectionView = UIView()
         promotionalGoodsSectionView.layer.cornerRadius = 12
-        promotionalGoodsSectionView.backgroundColor = UIColor(red: 244/255, green: 244/255, blue: 244/255, alpha: 1)
+        promotionalGoodsSectionView.backgroundColor = .promotionalGoodsSectionViewBackgroundColor
         return promotionalGoodsSectionView
     }()
     
@@ -53,7 +52,7 @@ final class PromotionalGoodsCollectionViewCell: UICollectionViewCell {
     
     private let newDishBannerView: UIView = {
         let newDishBannerView = UIView()
-        newDishBannerView.backgroundColor = UIColor(red: 255/255, green: 160/255, blue: 51/255, alpha: 1)
+        newDishBannerView.backgroundColor = .newDishBannerViewBackgroundColor
         newDishBannerView.layer.cornerRadius = 8
         return newDishBannerView
     }()
@@ -61,6 +60,7 @@ final class PromotionalGoodsCollectionViewCell: UICollectionViewCell {
     private let newDishBannerLabel: UILabel = {
         let newDishBannerLabel = UILabel()
         newDishBannerLabel.font = .systemFont(ofSize: 10)
+        newDishBannerLabel.text = "Новинка"
         newDishBannerLabel.textColor = .white
         return newDishBannerLabel
     }()
@@ -70,7 +70,7 @@ final class PromotionalGoodsCollectionViewCell: UICollectionViewCell {
         dishWeightLabel.font = .systemFont(ofSize: 12, weight: .light)
         return dishWeightLabel
     }()
-
+    
     private let pricePerDishLebel: UILabel = {
         let pricePerDishLebel = UILabel()
         pricePerDishLebel.font = .systemFont(ofSize: 12, weight: .light)
@@ -93,7 +93,7 @@ final class PromotionalGoodsCollectionViewCell: UICollectionViewCell {
     private lazy var addingAProductButton: UIButton = {
         let addingAProductButton = UIButton()
         addingAProductButton.layer.cornerRadius = 15
-        addingAProductButton.backgroundColor = UIColor(red: 255/255, green: 211/255, blue: 52/255, alpha: 1)
+        addingAProductButton.backgroundColor = .ellowButtonsColor
         addingAProductButton.setImage(UIImage(named: "addButtonImage"), for: .normal)
         addingAProductButton.addTarget(self, action: #selector(quantityOfGoodsInCartPlus), for: .touchUpInside)
         return addingAProductButton
@@ -102,7 +102,7 @@ final class PromotionalGoodsCollectionViewCell: UICollectionViewCell {
     private lazy var removeFromCartButton: UIButton = {
         let removeFromCartButton = UIButton()
         removeFromCartButton.layer.cornerRadius = 15
-        removeFromCartButton.backgroundColor = UIColor(red: 255/255, green: 211/255, blue: 52/255, alpha: 1)
+        removeFromCartButton.backgroundColor = .ellowButtonsColor
         removeFromCartButton.setImage(UIImage(named: "removeButtonImage"), for: .normal)
         removeFromCartButton.addTarget(self, action: #selector(quantityOfGoodsInCartMinus), for: .touchUpInside)
         return removeFromCartButton
@@ -111,7 +111,7 @@ final class PromotionalGoodsCollectionViewCell: UICollectionViewCell {
     private let addingToCartView: UIView = {
         let addingToCartView = UIView()
         addingToCartView.layer.cornerRadius = 15
-        addingToCartView.backgroundColor = UIColor(red: 255/255, green: 211/255, blue: 52/255, alpha: 1)
+        addingToCartView.backgroundColor = .ellowButtonsColor
         return addingToCartView
     }()
     
@@ -127,7 +127,7 @@ final class PromotionalGoodsCollectionViewCell: UICollectionViewCell {
         redLineView.backgroundColor = .red
         return redLineView
     }()
-
+    
     override init(frame: CGRect) {
         super .init(frame: .zero)
         setupUI()
@@ -137,38 +137,6 @@ final class PromotionalGoodsCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    @objc func quantityOfGoodsInCartPlus() {
-        quantityOfGoodsInCartNumber += 1
-        addToCart()
-    }
-    
-    @objc func quantityOfGoodsInCartMinus() {
-        quantityOfGoodsInCartNumber -= 1
-        addToCart()
-    }
-    
-    func addToCart() {
-        if quantityOfGoodsInCartNumber == 0 {
-            discountedPricceLabel.isHidden = false
-            priceWithoutDiscountLabel.isHidden = false
-            addingToCartView.isHidden = true
-            removeFromCartButton.isHidden = true
-            quantityOfGoodsInCartLabel.isHidden = true
-            pricePerDishLebel.isHidden = true
-            redLineView.isHidden = false
-            
-        } else if quantityOfGoodsInCartNumber > 0 {
-            discountedPricceLabel.isHidden = true
-            priceWithoutDiscountLabel.isHidden = true
-            addingToCartView.isHidden = false
-            removeFromCartButton.isHidden = false
-            quantityOfGoodsInCartLabel.isHidden = false
-            pricePerDishLebel.isHidden = false
-            redLineView.isHidden = true
-        }
-        quantityOfGoodsInCartLabel.text = String(quantityOfGoodsInCartNumber)
-    }
-
     func configure(model: PromotionalGoodsSectionModel) {
         self.model = model
         promotionalGoodsSectionImageView.image = model.image
@@ -177,7 +145,6 @@ final class PromotionalGoodsCollectionViewCell: UICollectionViewCell {
         dishWeightLabel.text = model.dishWeight
         discountedPricceLabel.text = model.discountedPricceLabel
         priceWithoutDiscountLabel.text = model.priceWithoutDiscount
-        newDishBannerLabel.text = model.newDishBannerLabel
         pricePerDishLebel.text = model.discountedPricceLabel
         
         if model.newDish == false {
@@ -190,29 +157,47 @@ final class PromotionalGoodsCollectionViewCell: UICollectionViewCell {
         redLineView.isHidden = false
     }
     
+    @objc private func quantityOfGoodsInCartPlus() {
+        quantityOfGoodsInCartNumber += 1
+        addToCart()
+    }
+    
+    @objc private func quantityOfGoodsInCartMinus() {
+        quantityOfGoodsInCartNumber -= 1
+        addToCart()
+    }
+    
+    private func addToCart() {
+        if quantityOfGoodsInCartNumber == 0 {
+            discountedPricceLabel.isHidden = false
+            priceWithoutDiscountLabel.isHidden = false
+            addingToCartView.isHidden = true
+            removeFromCartButton.isHidden = true
+            quantityOfGoodsInCartLabel.isHidden = true
+            pricePerDishLebel.isHidden = true
+            redLineView.isHidden = false
+        } else if quantityOfGoodsInCartNumber > 0 {
+            discountedPricceLabel.isHidden = true
+            priceWithoutDiscountLabel.isHidden = true
+            addingToCartView.isHidden = false
+            removeFromCartButton.isHidden = false
+            quantityOfGoodsInCartLabel.isHidden = false
+            pricePerDishLebel.isHidden = false
+            redLineView.isHidden = true
+        }
+        quantityOfGoodsInCartLabel.text = String(quantityOfGoodsInCartNumber)
+    }
+    
     private func setupUI() {
         addSubview(promotionalGoodsSectionView)
-        promotionalGoodsSectionView.addSubview(promotionalGoodsSectionImageView)
-        promotionalGoodsSectionView.addSubview(promotionalGoodsDescriptionLabel)
-        promotionalGoodsSectionView.addSubview(dishWeightLabel)
-        promotionalGoodsSectionView.addSubview(discountBannerView)
-        promotionalGoodsSectionView.addSubview(discountedPricceLabel)
-        promotionalGoodsSectionView.addSubview(priceWithoutDiscountLabel)
-        promotionalGoodsSectionView.addSubview(addingToCartView)
-        promotionalGoodsSectionView.addSubview(addingAProductButton)
-        promotionalGoodsSectionView.addSubview(removeFromCartButton)
-        promotionalGoodsSectionView.addSubview(newDishBannerView)
-        promotionalGoodsSectionView.addSubview(pricePerDishLebel)
+        promotionalGoodsSectionView.addSubviews([promotionalGoodsSectionImageView, promotionalGoodsDescriptionLabel, dishWeightLabel, discountBannerView, discountedPricceLabel, priceWithoutDiscountLabel, addingToCartView, addingAProductButton, removeFromCartButton, newDishBannerView, pricePerDishLebel])
         addingToCartView.addSubview(quantityOfGoodsInCartLabel)
         newDishBannerView.addSubview(newDishBannerLabel)
         discountBannerView.addSubview(discountBannerLabel)
         promotionalGoodsSectionView.addSubview(redLineView)
-
+        
         promotionalGoodsSectionView.snp.makeConstraints { make in
-            make.leading.equalTo(snp.leading)
-            make.top.equalTo(snp.top)
-            make.trailing.equalTo(snp.trailing)
-            make.bottom.equalTo(snp.bottom)
+            make.edges.equalToSuperview()
         }
         
         promotionalGoodsSectionImageView.snp.makeConstraints { make in
@@ -245,8 +230,7 @@ final class PromotionalGoodsCollectionViewCell: UICollectionViewCell {
         }
         
         discountBannerLabel.snp.makeConstraints { make in
-            make.centerX.equalTo(discountBannerView.snp.centerX)
-            make.centerY.equalTo(discountBannerView.snp.centerY)
+            make.center.equalTo(discountBannerView.snp.center)
         }
         
         discountedPricceLabel.snp.makeConstraints { make in
@@ -260,15 +244,13 @@ final class PromotionalGoodsCollectionViewCell: UICollectionViewCell {
         }
         
         addingAProductButton.snp.makeConstraints { make in
-            make.width.equalTo(30)
-            make.height.equalTo(30)
+            make.width.height.equalTo(30)
             make.bottom.equalTo(promotionalGoodsSectionView.snp.bottom).offset(-5)
             make.trailing.equalTo(promotionalGoodsSectionView.snp.trailing).offset(-5)
         }
         
         removeFromCartButton.snp.makeConstraints { make in
-            make.width.equalTo(30)
-            make.height.equalTo(30)
+            make.width.height.equalTo(30)
             make.bottom.equalTo(promotionalGoodsSectionView.snp.bottom).offset(-5)
             make.leading.equalTo(promotionalGoodsSectionView.snp.leading).offset(5)
         }
@@ -281,8 +263,7 @@ final class PromotionalGoodsCollectionViewCell: UICollectionViewCell {
         }
         
         newDishBannerLabel.snp.makeConstraints { make in
-            make.centerX.equalTo(newDishBannerView.snp.centerX)
-            make.centerY.equalTo(newDishBannerView.snp.centerY)
+            make.center.equalTo(newDishBannerView.snp.center)
         }
         
         addingToCartView.snp.makeConstraints { make in

@@ -37,7 +37,23 @@ final class PromoBannerTableViewCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
+    private func setupUI() {
+        contentView.addSubview(promoBannerCollectionView)
+        
+        promoBannerCollectionView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+    }
+}
+
+extension PromoBannerTableViewCell: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("Блок с промо баннерами")
+    }
+}
+
+extension PromoBannerTableViewCell: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return bannerDataSourse.count
     }
@@ -47,27 +63,4 @@ final class PromoBannerTableViewCell: UITableViewCell {
         cell.configure(model: bannerDataSourse[indexPath.row])
         return cell
     }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("Блок с промо баннерами")
-    }
-    
-    private func setupUI() {
-        contentView.addSubview(promoBannerCollectionView)
-        
-        promoBannerCollectionView.snp.makeConstraints { make in
-            make.leading.equalTo(contentView.snp.leading)
-            make.top.equalTo(contentView.snp.top)
-            make.trailing.equalTo(contentView.snp.trailing)
-            make.bottom.equalTo(contentView.snp.bottom)
-        }
-    }
-}
-
-extension PromoBannerTableViewCell: UICollectionViewDelegate {
-    
-}
-
-extension PromoBannerTableViewCell: UICollectionViewDataSource {
-    
 }

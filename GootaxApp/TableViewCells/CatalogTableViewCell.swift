@@ -16,9 +16,10 @@ final class CatalogTableViewCell: UITableViewCell {
 
     private lazy var catalogCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        layout.itemSize.width = UIScreen.main.bounds.width * 0.27
+        layout.itemSize.width = UIScreen.main.bounds.width * 0.28
         layout.itemSize.height = layout.itemSize.width * 1.4
-        layout.minimumLineSpacing = 12
+        layout.minimumLineSpacing = 10
+        layout.minimumInteritemSpacing = 10
         layout.estimatedItemSize = .zero
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.showsHorizontalScrollIndicator = false
@@ -45,7 +46,29 @@ final class CatalogTableViewCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
+    private func setupUI() {
+        contentView.addSubviews([catalogCollectionView, titleLabel])
+
+        titleLabel.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(20)
+            make.top.trailing.equalToSuperview().offset(10)
+        }
+
+        catalogCollectionView.snp.makeConstraints { make in
+            make.leading.trailing.bottom.equalToSuperview()
+            make.top.equalTo(titleLabel.snp.bottom)
+        }
+    }
+}
+
+extension CatalogTableViewCell: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("Каталог")
+    }
+}
+
+extension CatalogTableViewCell: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return catalogDataSourse.count
     }
@@ -55,34 +78,6 @@ final class CatalogTableViewCell: UITableViewCell {
         cell.configure(model: catalogDataSourse[indexPath.row])
         return cell
     }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("Каталог")
-    }
-
-    private func setupUI() {
-        contentView.addSubview(catalogCollectionView)
-        contentView.addSubview(titleLabel)
-        
-        titleLabel.snp.makeConstraints { make in
-            make.leading.equalTo(contentView.snp.leading).offset(20)
-        }
-
-        catalogCollectionView.snp.makeConstraints { make in
-            make.leading.equalTo(contentView.snp.leading)
-            make.top.equalTo(contentView.snp.top).offset(25)
-            make.trailing.equalTo(contentView.snp.trailing)
-            make.bottom.equalTo(contentView.snp.bottom)
-        }
-    }
-}
-
-extension CatalogTableViewCell: UICollectionViewDelegate {
-    
-}
-
-extension CatalogTableViewCell: UICollectionViewDataSource {
-    
 }
 
 

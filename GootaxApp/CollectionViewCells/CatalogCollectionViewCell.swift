@@ -59,14 +59,10 @@ final class CatalogCollectionViewCell: UICollectionViewCell {
     private func setupUI() {
         addSubview(catalogCollectionViewCell)
         catalogCollectionViewCell.addSubview(catalogCollectionBackgroundImageView)
-        catalogCollectionBackgroundImageView.addSubview(catalogCollectionImageView)
-        catalogCollectionBackgroundImageView.addSubview(catalogCollectionDescriptionLabel)
+        catalogCollectionBackgroundImageView.addSubviews([catalogCollectionImageView, catalogCollectionDescriptionLabel])
 
         catalogCollectionViewCell.snp.makeConstraints { make in
-            make.leading.equalTo(snp.leading)
-            make.top.equalTo(snp.top)
-            make.trailing.equalTo(snp.trailing)
-            make.bottom.equalTo(snp.bottom)
+            make.edges.equalToSuperview()
         }
         
         catalogCollectionBackgroundImageView.snp.makeConstraints { make in
