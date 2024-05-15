@@ -5,7 +5,6 @@
 //  Created by Андрей Бабкин on 06.05.2024.
 //
 
-import Foundation
 import UIKit
 
 struct PromoSectionModel {

@@ -12,10 +12,23 @@ final class AddressSelectionTableViewCell: UITableViewCell {
     
     static let reuseID = "AddressSelectionTableViewCell"
     
-    private var hamburgerMenuButton: UIButton = {
+    var onTapToProfileSettingsVC: (() -> Void)?
+
+    var onTapToAdressVC: (() -> Void)?
+    
+    private lazy var hamburgerMenuButton: UIButton = {
         let hamburgerMenuButton = UIButton()
         hamburgerMenuButton.setImage(UIImage(named: "hamburgerButtonImage"), for: .normal)
+        hamburgerMenuButton.addTarget(self, action: #selector(goToProfileViewController), for: .touchUpInside)
         return hamburgerMenuButton
+    }()
+    
+    private lazy var deliveryView: UIView = {
+        let deliveryView = UIView()
+        let tapToDeliveryLabel = UITapGestureRecognizer(target: self, action: #selector(goToSearchAdressViewController))
+        deliveryView.isUserInteractionEnabled = true
+        deliveryView.addGestureRecognizer(tapToDeliveryLabel)
+        return deliveryView
     }()
     
     private let deliveryLabel: UILabel = {
@@ -27,15 +40,15 @@ final class AddressSelectionTableViewCell: UITableViewCell {
     
     private let addressLabel: UILabel = {
         let addressLabel = UILabel()
-        addressLabel.text = "Пискунова, 24"
         addressLabel.font = UIFont.systemFont(ofSize: 16)
+        addressLabel.adjustsFontSizeToFitWidth = true
         return addressLabel
     }()
-    
-    private let dropDownListButton: UIButton = {
-        let dropDownListButton = UIButton()
-        dropDownListButton.setImage(UIImage(named: "downArrow"), for: .normal)
-        return dropDownListButton
+
+    private let dropDownListImageView: UIImageView = {
+        let dropDownListImageView = UIImageView()
+        dropDownListImageView.image = UIImage(named: "downArrow")
+        return dropDownListImageView
     }()
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -47,8 +60,21 @@ final class AddressSelectionTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func configure(adress: String) {
+        addressLabel.text = adress
+    }
+    
+    @objc private func goToProfileViewController() {
+        onTapToProfileSettingsVC?()
+    }
+    
+    @objc private func goToSearchAdressViewController() {
+        onTapToAdressVC?()
+    }
+    
     private func setupUI() {
-        contentView.addSubviews([hamburgerMenuButton, deliveryLabel, addressLabel, dropDownListButton])
+        contentView.addSubviews([deliveryView, hamburgerMenuButton])
+        deliveryView.addSubviews([deliveryLabel, addressLabel, dropDownListImageView])
 
         hamburgerMenuButton.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(15)
@@ -56,19 +82,26 @@ final class AddressSelectionTableViewCell: UITableViewCell {
             make.width.height.equalTo(25)
         }
         
-        deliveryLabel.snp.makeConstraints { make in
+        deliveryView.snp.makeConstraints { make in
             make.leading.equalTo(hamburgerMenuButton.snp.trailing).offset(30)
+            make.top.bottom.equalToSuperview()
+        }
+        
+        deliveryLabel.snp.makeConstraints { make in
+            make.leading.equalTo(deliveryView.snp.leading)
             make.top.equalToSuperview().offset(5)
         }
         
         addressLabel.snp.makeConstraints { make in
-            make.leading.equalTo(hamburgerMenuButton.snp.trailing).offset(30)
+            make.leading.equalTo(deliveryView.snp.leading)
             make.top.equalTo(deliveryLabel.snp.bottom).offset(4)
+            make.width.lessThanOrEqualTo(UIScreen.main.bounds.width * 0.7)
         }
         
-        dropDownListButton.snp.makeConstraints { make in
+        dropDownListImageView.snp.makeConstraints { make in
+            make.centerY.equalTo(addressLabel.snp.centerY)
             make.leading.equalTo(addressLabel.snp.trailing).offset(5)
-            make.top.equalTo(deliveryLabel.snp.bottom).offset(4)
+            make.trailing.equalToSuperview().offset(-5)
         }
     }
 }

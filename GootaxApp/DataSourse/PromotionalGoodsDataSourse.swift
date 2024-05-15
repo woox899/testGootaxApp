@@ -5,7 +5,6 @@
 //  Created by Андрей Бабкин on 06.05.2024.
 //
 
-import Foundation
 import UIKit
 
 struct PromotionalGoodsSectionModel {
@@ -15,7 +14,6 @@ struct PromotionalGoodsSectionModel {
     let dishWeight: String?
     let priceWithoutDiscount: String?
     let discountedPricceLabel: String?
-//    let newDishBannerLabel: String?
     let newDish: Bool?
     
     static func fetchPromotionalGoodsSection() -> [PromotionalGoodsSectionModel] {

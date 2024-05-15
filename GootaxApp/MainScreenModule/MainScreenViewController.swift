@@ -6,11 +6,14 @@
 //
 
 import UIKit
+import SideMenu
 
 final class MainScreenViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     private let viewModel: MainScreenViewModelProtocol
-
+    
+    private var adress: String = "Выберете адрес"
+    
     private lazy var listTabelView: UITableView = {
         let view = UITableView(frame: .zero, style: .plain)
         view.dataSource = self
@@ -25,12 +28,12 @@ final class MainScreenViewController: UIViewController, UITableViewDelegate, UIT
         view.register(CatalogTableViewCell.self, forCellReuseIdentifier: CatalogTableViewCell.reuseID)
         return view
     }()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
     }
-
+    
     init(viewModel: MainScreenViewModelProtocol) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -50,6 +53,24 @@ final class MainScreenViewController: UIViewController, UITableViewDelegate, UIT
             case 0:
                 guard let addressSelectionTableViewCell = listTabelView.dequeueReusableCell(withIdentifier: AddressSelectionTableViewCell.reuseID, for: indexPath) as? AddressSelectionTableViewCell else { return UITableViewCell() }
                 addressSelectionTableViewCell.selectionStyle = .none
+                addressSelectionTableViewCell.configure(adress: adress)
+                addressSelectionTableViewCell.onTapToProfileSettingsVC = { [weak self] in
+                    guard let self else {
+                        return
+                    }
+                    let viewModel = ProfileSettingsViewModel()
+                    let vc = ProfileSettingsViewController(viewModel: viewModel)
+                    let menu = SideMenuNavigationController(rootViewController: vc)
+                    menu.menuWidth = self.view.bounds.width * 0.9
+                    menu.leftSide = true
+                    self.present(menu, animated: true, completion: nil)
+                }
+                addressSelectionTableViewCell.onTapToAdressVC = { [weak self] in
+                    guard let self else {
+                        return
+                    }
+                    self.displaySearch()
+                }
                 return addressSelectionTableViewCell
                 
             case 1:
@@ -124,5 +145,16 @@ final class MainScreenViewController: UIViewController, UITableViewDelegate, UIT
             make.edges.equalToSuperview()
         }
     }
-}
 
+    private func displaySearch() {
+        let viewModel: SearchAddressViewModelProtocol = SearchAddressViewModel()
+        let vc = SearchAddressViewController(viewModel: viewModel)
+        vc.addressSelected = { [weak self] adress in
+            if let value = adress.value {
+                self?.adress = value
+                self?.listTabelView.reloadData()
+            }
+        }
+        self.present(vc, animated: true)
+    }
+}
