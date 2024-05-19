@@ -8,10 +8,28 @@
 import UIKit
 import SideMenu
 
+enum SectionType {
+    case first
+}
+
+enum RowType {
+    case address
+    case search
+    case promoSection
+    case promoBanner
+    case promotional
+    case catalog
+}
+
+struct Section {
+    let section: SectionType
+    let rows: [RowType]
+}
+
 final class MainScreenViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    private let viewModel: MainScreenViewModelProtocol
-    
+    var sections: [Section] = [.init(section: SectionType.first, rows: [.address, .search, .promoSection, .promoBanner, .promotional, .catalog])]
+  
     private var adress: String = "Выберете адрес"
     
     private lazy var listTabelView: UITableView = {
@@ -34,23 +52,18 @@ final class MainScreenViewController: UIViewController, UITableViewDelegate, UIT
         setupUI()
     }
     
-    init(viewModel: MainScreenViewModelProtocol) {
-        self.viewModel = viewModel
-        super.init(nibName: nil, bundle: nil)
+    func numberOfSections(in tableView: UITableView) -> Int {
+        sections.count
     }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 6
+        sections[0].rows.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell: UITableViewCell {
-            switch indexPath.row {
-            case 0:
+            switch sections[indexPath.section].rows[indexPath.row] {
+            case .address:
                 guard let addressSelectionTableViewCell = listTabelView.dequeueReusableCell(withIdentifier: AddressSelectionTableViewCell.reuseID, for: indexPath) as? AddressSelectionTableViewCell else { return UITableViewCell() }
                 addressSelectionTableViewCell.selectionStyle = .none
                 addressSelectionTableViewCell.configure(adress: adress)
@@ -58,8 +71,7 @@ final class MainScreenViewController: UIViewController, UITableViewDelegate, UIT
                     guard let self else {
                         return
                     }
-                    let viewModel = ProfileSettingsViewModel()
-                    let vc = ProfileSettingsViewController(viewModel: viewModel)
+                    let vc = ProfileSettingsViewController()
                     let menu = SideMenuNavigationController(rootViewController: vc)
                     menu.menuWidth = self.view.bounds.width * 0.9
                     menu.leftSide = true
@@ -73,65 +85,61 @@ final class MainScreenViewController: UIViewController, UITableViewDelegate, UIT
                 }
                 return addressSelectionTableViewCell
                 
-            case 1:
+            case .search:
                 guard let searchTableViewCell = listTabelView.dequeueReusableCell(withIdentifier: SearchTableViewCell.reuseID, for: indexPath) as?
                         SearchTableViewCell else { return UITableViewCell() }
                 searchTableViewCell.selectionStyle = .none
                 return searchTableViewCell
                 
-            case 2:
+            case .promoSection:
                 guard let promoSectionTableViewCell = listTabelView.dequeueReusableCell(withIdentifier: PromoSectionTableViewCell.reuseID, for: indexPath) as?
                         PromoSectionTableViewCell else { return UITableViewCell() }
                 promoSectionTableViewCell.selectionStyle = .none
                 return promoSectionTableViewCell
                 
-            case 3:
+            case .promoBanner:
                 guard let promoBannerTableViewCell = listTabelView.dequeueReusableCell(withIdentifier: PromoBannerTableViewCell.reuseID, for: indexPath) as?
                         PromoBannerTableViewCell else { return UITableViewCell() }
                 promoBannerTableViewCell.selectionStyle = .none
                 return promoBannerTableViewCell
                 
-            case 4:
+            case .promotional:
                 guard let promotionalGoodsTableViewCell = listTabelView.dequeueReusableCell(withIdentifier: PromotionalGoodsTableViewCell.reuseID, for: indexPath) as? PromotionalGoodsTableViewCell else { return UITableViewCell() }
                 promotionalGoodsTableViewCell.selectionStyle = .none
                 return promotionalGoodsTableViewCell
                 
-            case 5:
+            case .catalog:
                 guard let catalogTableViewCell = listTabelView.dequeueReusableCell(withIdentifier: CatalogTableViewCell.reuseID, for: indexPath) as?
                         CatalogTableViewCell else { return UITableViewCell() }
                 catalogTableViewCell.selectionStyle = .none
                 return catalogTableViewCell
-            default:
-                return UITableViewCell()
             }
         }
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        switch indexPath.row {
-        case 0:
+        switch sections[indexPath.section].rows[indexPath.row] {
+        case .address:
             return 50
-        case 1:
+        case .search:
             return 50
-        case 2:
+        case .promoSection:
             return 108
-        case 3:
+        case .promoBanner:
             return 135
-        case 4:
+        case .promotional:
             return 280
-        case 5:
+        case .catalog:
             return 600
-        default:
-            return 50
         }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        switch indexPath.row {
-        case 0:
+        switch sections[indexPath.section].rows[indexPath.row] {
+        case .address:
             print("Строка с адресом")
-        case 1:
+        case .search:
             print("Поисковая строка")
         default:
             return

@@ -18,16 +18,23 @@ protocol SearchAddressViewModelDelegate: AnyObject {
 
 final class SearchAddressViewModel: SearchAddressViewModelProtocol {
     weak var delegate: SearchAddressViewModelDelegate?
+    private var timer: Timer?
+    private var query: String = String()
     private let networkManager = NetworkManager()
+    
     func getLocation(text: String) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-            self.networkManager.getLocation(searchText: text) { [weak self] result in
-                switch result {
-                case .success(let model):
-                    self?.delegate?.displayAddresses(model: model)
-                case .failure(let error):
-                    print(error.localizedDescription)
-                }
+        query = text
+        timer?.invalidate()
+        timer = Timer.scheduledTimer(timeInterval: 0.3, target: self, selector: #selector(findAdress), userInfo: nil, repeats: false)
+    }
+    
+    @objc private func findAdress() {
+        self.networkManager.getLocation(searchText: query) { [weak self] result in
+            switch result {
+            case .success(let model):
+                self?.delegate?.displayAddresses(model: model)
+            case .failure(let error):
+                print(error.localizedDescription)
             }
         }
     }

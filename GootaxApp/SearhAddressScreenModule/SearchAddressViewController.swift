@@ -57,11 +57,11 @@ final class SearchAddressViewController: UIViewController, UITextFieldDelegate, 
     }
 
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        guard let text = textField.text else { return false }
+        guard let text = (textField.text as NSString?)?.replacingCharacters(in: range, with: string) else { return false }
         viewModel.getLocation(text: text)
         return true
     }
-    
+
     func displayAddresses(model: SearchAddressModel) {
         dataSourse = model.suggestions.map { SearchAddressTableViewCellModel(type: .adress, adress: $0) }
         dataSourse.insert(SearchAddressTableViewCellModel(type: .myLocation, adress: Address(value: nil, unrestrictedValue: nil)), at: 0)

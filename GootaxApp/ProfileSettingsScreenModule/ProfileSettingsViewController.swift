@@ -9,9 +9,7 @@ import UIKit
 import SnapKit
 
 final class ProfileSettingsViewController: UIViewController {
-    
-    private let viewModel: ProfileSettingsViewModelProtocol
-    
+
     private var dataSourse: [MenuActions] = [.payment, .myAddresses, .myOrders, .favorites, .news, .coupons, .aboutAu, .inviteFriends, .settings]
 
     private let topView: UIView = {
@@ -77,16 +75,7 @@ final class ProfileSettingsViewController: UIViewController {
         view.backgroundColor = .systemBackground
         setupUI()
     }
-    
-    init(viewModel: ProfileSettingsViewModelProtocol) {
-        self.viewModel = viewModel
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
+
     private func setupUI() {
         view.addSubviews([topView, profileSettingsTableView, connectWithUsImage, connectWithUsLabel])
         topView.addSubviews([separatorView, avatarImageView, nameLabel, phoneNumberLabel])
